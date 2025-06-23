@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +10,8 @@ import 'dart:io';
 
 part 'pointclass.dart';
 part 'rectangleclass.dart';
+part 'squareclass.dart';
+part 'triangleclass.dart';
 
 part 'myapp.dart';
 part 'myhomepage.dart';

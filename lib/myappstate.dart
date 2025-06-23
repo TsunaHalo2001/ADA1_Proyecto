@@ -6,6 +6,9 @@ class MyAppState extends ChangeNotifier {
 
   Map<String, List<PointClass>> data = {};
   List<RectangleClass> rectangles = [];
+  List<SquareClass> squares = [];
+  List<TriangleClass> acute = [];
+  List<TriangleClass> rectTriangle = [];
 
   void loadData() async {
     data = await getDBData();
@@ -24,10 +27,24 @@ class MyAppState extends ChangeNotifier {
 
   void setCurrentLabel(String label) {
     currentLabel = label;
-    if (data.containsKey(label))
+    if (data.containsKey(label)) {
       RectangleClass.formRectangles(data[label]!).then((rects) => rectangles = rects);
-    else rectangles = [];
+      SquareClass.formSquares(data[label]!).then((sqs) => squares = sqs);
+      TriangleClass.formAcuteTriangles(data[label]!).then((tri) => acute = tri);
+      TriangleClass.formRectangleAngles(data[label]!).then((tri) => rectTriangle = tri);
+    } else {
+      rectangles = [];
+      squares = [];
+      acute = [];
+      rectTriangle = [];
+    }
     rectangles = RectangleClass.removeDuplicates(rectangles);
+    squares = SquareClass.removeDuplicates(squares);
+    acute = TriangleClass.removeDuplicates(acute);
+    rectTriangle = TriangleClass.removeDuplicates(rectTriangle);
+
+    print(acute);
+    print(rectTriangle);
 
     notifyListeners();
   }
