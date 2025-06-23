@@ -5,6 +5,7 @@ class MyAppState extends ChangeNotifier {
   String currentLabel = '';
 
   Map<String, List<PointClass>> data = {};
+  List<RectangleClass> rectangles = [];
 
   void loadData() async {
     data = await getDBData();
@@ -23,6 +24,11 @@ class MyAppState extends ChangeNotifier {
 
   void setCurrentLabel(String label) {
     currentLabel = label;
+    if (data.containsKey(label))
+      RectangleClass.formRectangles(data[label]!).then((rects) => rectangles = rects);
+    else rectangles = [];
+    rectangles = RectangleClass.removeDuplicates(rectangles);
+
     notifyListeners();
   }
 
