@@ -64,7 +64,9 @@ class RectangleClass {
     List<Future<List<RectangleClass>>> futures = [];
     for (int i = 0; i < chunks.length; i++) {
       final partialInput = chunks[i];
-      final otherElements = points.where((p) => !partialInput.contains(p)).toList();
+      final otherElements = RecursionClass.recursiveWhere(
+        points,
+        (p) => !partialInput.contains(p)).toList();
 
       futures.add(compute(generatePartialPermutations, <String, dynamic> {
         'partialStart': partialInput,
@@ -73,22 +75,23 @@ class RectangleClass {
     }
 
     final results = await Future.wait(futures);
-    return results.expand((rects) => rects).toList().where(
+
+    return RecursionClass.recursiveWhere(
+      results.expand((rects) => rects).toList(),
       (rect) => rect.topLeft.x == rect.bottomLeft.x &&
-                rect.topLeft.y == rect.topRight.y &&
-                rect.topRight.x == rect.bottomRight.x &&
-                rect.bottomLeft.y == rect.bottomRight.y &&
-                rect.bottomLeft.x < rect.bottomRight.x &&
-                rect.topLeft.x < rect.topRight.x &&
-                rect.bottomLeft.y < rect.topLeft.y &&
-                rect.bottomRight.y < rect.topRight.y &&
-                rect.topLeft != rect.topRight &&
-                rect.topLeft != rect.bottomLeft &&
-                rect.topLeft != rect.bottomRight &&
-                rect.topRight != rect.bottomRight &&
-                rect.topRight != rect.bottomLeft &&
-                rect.bottomLeft != rect.bottomRight
-    ).toList();
+        rect.topLeft.y == rect.topRight.y &&
+        rect.topRight.x == rect.bottomRight.x &&
+        rect.bottomLeft.y == rect.bottomRight.y &&
+        rect.bottomLeft.x < rect.bottomRight.x &&
+        rect.topLeft.x < rect.topRight.x &&
+        rect.bottomLeft.y < rect.topLeft.y &&
+        rect.bottomRight.y < rect.topRight.y &&
+        rect.topLeft != rect.topRight &&
+        rect.topLeft != rect.bottomLeft &&
+        rect.topLeft != rect.bottomRight &&
+        rect.topRight != rect.bottomRight &&
+        rect.topRight != rect.bottomLeft &&
+        rect.bottomLeft != rect.bottomRight);
   }
 
   static List<RectangleClass> removeDuplicates(List<RectangleClass> rectangles) {

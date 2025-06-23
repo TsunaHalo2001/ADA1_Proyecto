@@ -103,16 +103,17 @@ class _PointListsState extends State<PointLists> {
             ),
             Expanded(
               child: ListView(
-                children: appState.data.entries.map((entry) =>
-                  ListTile(
-                    title: Text(entry.key + appState.data[entry.key].toString()),
-                    leading: Radio<String>(
-                      value: entry.key,
-                      groupValue: appState.currentLabel,
-                      onChanged: setCurrentMap,
+                children: RecursionClass.recursiveMapWidget(
+                  appState.data.entries.toList(), (entry) =>
+                    ListTile(
+                      title: Text(entry.key + appState.data[entry.key].toString()),
+                      leading: Radio<String>(
+                        value: entry.key,
+                        groupValue: appState.currentLabel,
+                        onChanged: setCurrentMap,
+                      ),
                     ),
-                  )
-                ).toList(),
+                ),
               ),
             ),
           ],
