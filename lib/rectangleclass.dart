@@ -109,4 +109,19 @@ class RectangleClass {
 
     return uniqueRectangles;
   }
+
+  static LineSeries<PointClass, double> toLineSeries(List<RectangleClass> rectangles) {
+    final List<PointClass> points = rectangles.expand((rect) => [
+      rect.topLeft, rect.topRight, rect.bottomRight, rect.bottomLeft, rect.topLeft
+    ]).toList();
+
+    return LineSeries<PointClass, double>(
+      dataSource: points,
+      xValueMapper: (PointClass point, _) => point.x,
+      yValueMapper: (PointClass point, _) => point.y,
+      name: 'Rectangles',
+      color: Colors.blue,
+      markerSettings: MarkerSettings(isVisible: true),
+    );
+  }
 }

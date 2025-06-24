@@ -43,11 +43,6 @@ class MyAppState extends ChangeNotifier {
     acute = TriangleClass.removeDuplicates(acute);
     rectTriangle = TriangleClass.removeDuplicates(rectTriangle);
 
-    print(rectangles);
-    print(squares);
-    print(acute);
-    print(rectTriangle);
-
     notifyListeners();
   }
 

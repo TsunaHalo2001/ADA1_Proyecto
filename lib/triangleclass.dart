@@ -146,4 +146,18 @@ class TriangleClass {
   String toString() {
     return 'Triangle: [A: $pointA, B: $pointB, C: $pointC, Angles: A=$angleA, B=$angleB, C=$angleC]';
   }
+
+  static LineSeries<PointClass, double> toLineSeries(List<TriangleClass> triangles) {
+    final List<PointClass> points = triangles.expand((tri) => [
+      tri.pointA, tri.pointB, tri.pointC, tri.pointA
+    ]).toList();
+
+    return LineSeries<PointClass, double>(
+      dataSource: points,
+      xValueMapper: (PointClass point, _) => point.x,
+      yValueMapper: (PointClass point, _) => point.y,
+      name: 'Triangles',
+      color: Colors.green,
+    );
+  }
 }

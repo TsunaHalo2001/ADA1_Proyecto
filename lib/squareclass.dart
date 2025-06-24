@@ -42,6 +42,21 @@ class SquareClass extends RectangleClass {
     return uniqueSquares;
   }
 
+  static LineSeries<PointClass, double> toLineSeries(List<SquareClass> squares) {
+    final List<PointClass> points = squares.expand((rect) => [
+      rect.topLeft, rect.topRight, rect.bottomRight, rect.bottomLeft, rect.topLeft
+    ]).toList();
+
+    return LineSeries<PointClass, double>(
+      dataSource: points,
+      xValueMapper: (PointClass point, _) => point.x,
+      yValueMapper: (PointClass point, _) => point.y,
+      name: 'Squares',
+      color: Colors.indigo,
+      markerSettings: MarkerSettings(isVisible: true),
+    );
+  }
+
   @override
   String toString() => 'Square: [TopLeft: $topLeft, BottomRight: $bottomRight, TopRight: $topRight, BottomLeft: $bottomLeft]';
 }

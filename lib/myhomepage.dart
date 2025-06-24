@@ -12,11 +12,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void setIndex(int newIndex) => setState(() => index = newIndex);
 
+  bool _isInitialized = false;
+
   @override
   Widget build(BuildContext context) {
     Widget page;
     var appState = context.watch<MyAppState>();
-    appState.loadData();
+
+    if (!_isInitialized) {
+      appState.loadData();
+      _isInitialized = true;
+    }
+
     Size size = MediaQuery.of(context).size;
     double minSize = size.width < size.height ? size.width : size.height;
     double maxSize = size.width > size.height ? size.width : size.height;
