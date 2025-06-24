@@ -33,9 +33,9 @@ class RectangleClass {
       if (current.length == 4) {
         result.add(RectangleClass(
           topLeft: current[0],
-          bottomRight: current[3],
-          topRight: PointClass(current[1].x, current[0].y),
-          bottomLeft: PointClass(current[0].x, current[3].y),
+          bottomRight: current[1],
+          topRight: current[2],
+          bottomLeft: current[3],
         ));
         return;
       }
