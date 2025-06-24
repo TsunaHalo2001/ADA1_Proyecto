@@ -50,4 +50,47 @@ class RecursionClass {
     helper(0);
     return result;
   }
+
+  static List<T> recursiveMergeSort<T> (
+      List<T> list,
+      int Function(T, T) compare, [
+        int start = 0,
+        int end = -1,
+      ]) {
+    if (end == -1) end = list.length - 1;
+
+    if (start >= end) return [list[start]];
+
+    int mid = (start + end) ~/ 2;
+
+    List<T> left = recursiveMergeSort(list, compare, start, mid);
+
+    List<T> right = recursiveMergeSort(list, compare, mid + 1, end);
+
+    List<T> merged = [];
+
+    int i = 0, j = 0;
+
+    while (i < left.length && j < right.length) {
+      if (compare(left[i], right[j]) <= 0) {
+        merged.add(left[i]);
+        i++;
+      } else {
+        merged.add(right[j]);
+        j++;
+      }
+    }
+
+    while (i < left.length) {
+      merged.add(left[i]);
+      i++;
+    }
+
+    while (j < right.length) {
+      merged.add(right[j]);
+      j++;
+    }
+
+    return merged;
+  }
 }

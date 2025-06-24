@@ -107,8 +107,11 @@ class TriangleClass {
     final List<TriangleClass> uniqueTriangles = [];
 
     for (final triangle in triangles) {
-      final points = [triangle.pointA, triangle.pointB, triangle.pointC];
-      points.sort((a, b) => a.x.compareTo(b.x) == 0 ? a.y.compareTo(b.y) : a.x.compareTo(b.x));
+      final pointsNS = [triangle.pointA, triangle.pointB, triangle.pointC];
+      final points = RecursionClass.recursiveMergeSort(
+        pointsNS,
+        (a, b) => a.x.compareTo(b.x) == 0 ? a.y.compareTo(b.y) : a.x.compareTo(b.x)
+      );
       final key = '${points[0].x},${points[0].y},'
                   '${points[1].x},${points[1].y},'
                   '${points[2].x},${points[2].y}';
