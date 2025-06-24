@@ -12,6 +12,7 @@ class MyAppState extends ChangeNotifier {
 
   void loadData() async {
     data = await getDBData();
+
     notifyListeners();
   }
 
@@ -46,7 +47,8 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Database> getDatabase() async => openDatabase(
+  Future<Database> getDatabase() async =>
+    openDatabase(
       join(await getDatabasesPath(), 'puntos.db'),
       onCreate: (db, version) => db.execute(
         'CREATE TABLE points(id INTEGER PRIMARY KEY, x REAL, y REAL, label TEXT)',

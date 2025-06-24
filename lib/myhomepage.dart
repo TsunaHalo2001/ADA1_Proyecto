@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         throw UnimplementedError('State ${appState.state} is not implemented');
     }
 
-    if (size.width > size.height) {
+    if (size.width > size.height)
       return MyHomePageH(
         index: index,
         setIndex: setIndex,
@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
         minSize: minSize,
         maxSize: maxSize,
       );
-    }
 
     return MyHomePageV(
       index: index,

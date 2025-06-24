@@ -227,71 +227,71 @@ class CartesianChartH extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      LayoutBuilder(builder: (context, constraints) =>
-        Scaffold(
-          appBar: AppBar(
-            title: const Text('Plano Cartesiano'),
-          ),
-            body: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    LayoutBuilder(builder: (context, constraints) =>
+      Scaffold(
+        appBar: AppBar(
+          title: const Text('Plano Cartesiano'),
+        ),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SfCartesianChart(
+                primaryXAxis: NumericAxis(rangePadding: ChartRangePadding.additional,),
+                primaryYAxis: NumericAxis(rangePadding: ChartRangePadding.additional,),
+                legend: Legend(
+                  isVisible: true,
+                ),
+                series: <CartesianSeries>[
+                  ScatterSeries<PointClass, double>(
+                    dataSource: appState.data[appState.currentLabel] ?? [],
+                    xValueMapper: (PointClass point, _) => point.x,
+                    yValueMapper: (PointClass point, _) => point.y,
+                    name: 'Puntos',
+                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                  ),
+                  ...figures,
+                ],
+              ),
+            ),
+            Column(
               children: [
-                Expanded(
-                  child: SfCartesianChart(
-                    primaryXAxis: NumericAxis(rangePadding: ChartRangePadding.additional,),
-                    primaryYAxis: NumericAxis(rangePadding: ChartRangePadding.additional,),
-                    legend: Legend(
-                      isVisible: true,
-                    ),
-                    series: <CartesianSeries>[
-                      ScatterSeries<PointClass, double>(
-                        dataSource: appState.data[appState.currentLabel] ?? [],
-                        xValueMapper: (PointClass point, _) => point.x,
-                        yValueMapper: (PointClass point, _) => point.y,
-                        name: 'Puntos',
-                        dataLabelSettings: DataLabelSettings(isVisible: true),
-                      ),
-                      ...figures,
-                    ],
+                SizedBox(
+                  width: constraints.maxWidth * 0.2,
+                  child: ListTile(
+                    title: Text(rectangles.length.toString()),
+                    trailing: Icon(Icons.rectangle),
+                    onTap: setIndexFigures1,
                   ),
                 ),
-                Column(
-                  children: [
-                    SizedBox(
-                      width: constraints.maxWidth * 0.2,
-                      child: ListTile(
-                        title: Text(rectangles.length.toString()),
-                        trailing: Icon(Icons.rectangle),
-                        onTap: setIndexFigures1,
-                      ),
-                    ),
-                    SizedBox(
-                      width: constraints.maxWidth * 0.2,
-                      child: ListTile(
-                        title: Text(squares.length.toString()),
-                        trailing: Icon(Icons.square),
-                        onTap: setIndexFigures2,
-                      ),
-                    ),
-                    SizedBox(
-                      width: constraints.maxWidth * 0.2,
-                      child: ListTile(
-                        title: Text(rectTriangle.length.toString()),
-                        trailing: Icon(Icons.network_cell),
-                        onTap: setIndexFigures3,
-                      ),
-                    ),
-                    SizedBox(
-                      width: constraints.maxWidth * 0.2,
-                      child: ListTile(
-                        title: Text(acute.length.toString()),
-                        trailing: Icon(Icons.play_arrow),
-                        onTap: setIndexFigures4,
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  width: constraints.maxWidth * 0.2,
+                  child: ListTile(
+                    title: Text(squares.length.toString()),
+                    trailing: Icon(Icons.square),
+                    onTap: setIndexFigures2,
+                  ),
+                ),
+                SizedBox(
+                  width: constraints.maxWidth * 0.2,
+                  child: ListTile(
+                    title: Text(rectTriangle.length.toString()),
+                    trailing: Icon(Icons.network_cell),
+                    onTap: setIndexFigures3,
+                  ),
+                ),
+                SizedBox(
+                  width: constraints.maxWidth * 0.2,
+                  child: ListTile(
+                    title: Text(acute.length.toString()),
+                    trailing: Icon(Icons.play_arrow),
+                    onTap: setIndexFigures4,
+                  ),
                 ),
               ],
             ),
+          ],
         ),
-      );
+      ),
+    );
 }

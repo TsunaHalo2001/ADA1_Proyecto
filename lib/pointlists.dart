@@ -56,9 +56,7 @@ class _PointListsState extends State<PointLists> {
 
     return LayoutBuilder(builder: (context, constraints) =>
       Scaffold(
-        appBar: AppBar(
-          title: const Text('Listas de Puntos'),
-        ),
+        appBar: AppBar(title: const Text('Listas de Puntos'),),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
