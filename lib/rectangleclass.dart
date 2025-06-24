@@ -135,7 +135,7 @@ class RectangleClass {
         dataSource: points,
         xValueMapper: (point, _) => point.x,
         yValueMapper: (point, _) => point.y,
-        name: 'R${pointsList.indexOf(points)}: ${areas[pointsList.indexOf(points)]}',
+        name: 'R${pointsList.indexOf(points)}: Area:${areas[pointsList.indexOf(points)]} P1: ${points[0].toString()} P2: ${points[1].toString()} P3: ${points[2].toString()} P4: ${points[3].toString()}',
         dataLabelSettings: DataLabelSettings(isVisible: true),
       )
     );

@@ -175,7 +175,7 @@ class TriangleClass {
         dataSource: points,
         xValueMapper: (point, _) => point.x,
         yValueMapper: (point, _) => point.y,
-        name: 'T${pointsList.indexOf(points)}: ${areas[pointsList.indexOf(points)]}',
+        name: 'T${pointsList.indexOf(points)}: Area:${areas[pointsList.indexOf(points)]} P1:${points[0].toString()} P2:${points[1].toString()} P3:${points[2].toString()}',
         dataLabelSettings: DataLabelSettings(isVisible: true),
       )
     );
