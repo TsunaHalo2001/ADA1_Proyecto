@@ -95,9 +95,9 @@ class _PointListsState extends State<PointLists> {
                     onChanged:  setCurrentY,
                   ),
                 ),
-                ElevatedButton(
+                FloatingActionButton(
                   onPressed: addPuntos,
-                  child: const Text('Añadir Punto'),
+                  child: const Icon(Icons.add),
                 ),
               ],
             ),
