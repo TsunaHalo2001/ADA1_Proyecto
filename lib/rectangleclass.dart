@@ -13,6 +13,11 @@ class RectangleClass {
     required this.bottomLeft,
   });
 
+  double get area => _calculateArea();
+
+  double _calculateArea() =>
+    (bottomRight.x - bottomLeft.x).abs() * (topLeft.y - bottomLeft.y).abs();
+
   @override
   String toString() => 'Rectangle: [TopLeft: $topLeft, BottomRight: $bottomRight, TopRight: $topRight, BottomLeft: $bottomLeft]';
 
@@ -110,18 +115,29 @@ class RectangleClass {
     return uniqueRectangles;
   }
 
-  static LineSeries<PointClass, double> toLineSeries(List<RectangleClass> rectangles) {
-    final List<PointClass> points = rectangles.expand((rect) => [
-      rect.topLeft, rect.topRight, rect.bottomRight, rect.bottomLeft, rect.topLeft
+  static List<LineSeries<PointClass, double>> toLineSeries(List<RectangleClass> rectangles) {
+    final List<List<PointClass>> pointsList = rectangles.map((rect) => [
+      rect.topLeft,
+      rect.topRight,
+      rect.bottomRight,
+      rect.bottomLeft,
+      rect.topLeft // Closing the rectangle
     ]).toList();
 
-    return LineSeries<PointClass, double>(
-      dataSource: points,
-      xValueMapper: (PointClass point, _) => point.x,
-      yValueMapper: (PointClass point, _) => point.y,
-      name: 'Rectangles',
-      color: Colors.blue,
-      markerSettings: MarkerSettings(isVisible: true),
+    final areas = RecursionClass.recursiveMap(
+      rectangles,
+      (rect) => num.parse(rect.area.toStringAsFixed(2))
+    );
+
+    return RecursionClass.recursiveMap(
+      pointsList,
+      (points) => LineSeries<PointClass, double>(
+        dataSource: points,
+        xValueMapper: (point, _) => point.x,
+        yValueMapper: (point, _) => point.y,
+        name: 'R${pointsList.indexOf(points)}: ${areas[pointsList.indexOf(points)]}',
+        dataLabelSettings: DataLabelSettings(isVisible: true),
+      )
     );
   }
 }

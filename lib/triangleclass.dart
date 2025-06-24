@@ -10,6 +10,7 @@ class TriangleClass {
   int get angleA => _calculateAngle(pointB, pointC, pointA);
   int get angleB => _calculateAngle(pointA, pointC, pointB);
   int get angleC => _calculateAngle(pointA, pointB, pointC);
+  double get area => _calculateArea();
 
   bool get isAcute => angleA < 90 && angleB < 90 && angleC < 90;
   bool get isRight => angleA == 90 || angleB == 90 || angleC == 90;
@@ -23,6 +24,14 @@ class TriangleClass {
 
   double _distance(PointClass p1, PointClass p2) =>
     sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
+
+  double _calculateArea() {
+    final a = _distance(pointB, pointC);
+    final b = _distance(pointA, pointC);
+    final c = _distance(pointA, pointB);
+    final s = (a + b + c) / 2;
+    return sqrt(s * (s - a) * (s - b) * (s - c));
+  }
 
   static List<TriangleClass> generatePartialPermutations(Map<String, dynamic> params) {
     List<PointClass> partialStart = params['partialStart'];
@@ -147,17 +156,28 @@ class TriangleClass {
     return 'Triangle: [A: $pointA, B: $pointB, C: $pointC, Angles: A=$angleA, B=$angleB, C=$angleC]';
   }
 
-  static LineSeries<PointClass, double> toLineSeries(List<TriangleClass> triangles) {
-    final List<PointClass> points = triangles.expand((tri) => [
-      tri.pointA, tri.pointB, tri.pointC, tri.pointA
+  static List<LineSeries<PointClass, double>> toLineSeries(List<TriangleClass> triangles) {
+    final List<List<PointClass>> pointsList = triangles.map((triangle) => [
+      triangle.pointA,
+      triangle.pointB,
+      triangle.pointC,
+      triangle.pointA // Closing the triangle
     ]).toList();
 
-    return LineSeries<PointClass, double>(
-      dataSource: points,
-      xValueMapper: (PointClass point, _) => point.x,
-      yValueMapper: (PointClass point, _) => point.y,
-      name: 'Triangles',
-      color: Colors.green,
+    final areas = RecursionClass.recursiveMap(
+      triangles,
+      (triangle) => num.parse(triangle.area.toStringAsFixed(2))
+    );
+
+    return RecursionClass.recursiveMap(
+      pointsList,
+      (points) => LineSeries<PointClass, double>(
+        dataSource: points,
+        xValueMapper: (point, _) => point.x,
+        yValueMapper: (point, _) => point.y,
+        name: 'T${pointsList.indexOf(points)}: ${areas[pointsList.indexOf(points)]}',
+        dataLabelSettings: DataLabelSettings(isVisible: true),
+      )
     );
   }
 }

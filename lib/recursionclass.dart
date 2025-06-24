@@ -59,6 +59,8 @@ class RecursionClass {
       ]) {
     if (end == -1) end = list.length - 1;
 
+    if (list.isEmpty) return [];
+
     if (start >= end) return [list[start]];
 
     int mid = (start + end) ~/ 2;

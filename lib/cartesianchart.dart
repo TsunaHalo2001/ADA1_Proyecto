@@ -14,32 +14,52 @@ class _CartesianChartState extends State<CartesianChart> {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    final List<RectangleClass> rectangles = RectangleClass.removeDuplicates(appState.rectangles);
-    final List<SquareClass> squares = SquareClass.removeDuplicates(appState.squares);
-    final List<TriangleClass> acute = TriangleClass.removeDuplicates(appState.acute);
-    final List<TriangleClass> rectTriangle = TriangleClass.removeDuplicates(appState.rectTriangle);
+    final List<RectangleClass> nRectangles = RectangleClass.removeDuplicates(appState.rectangles);
+    final List<SquareClass> nSquares = SquareClass.removeDuplicates(appState.squares);
+    final List<TriangleClass> nAcute = TriangleClass.removeDuplicates(appState.acute);
+    final List<TriangleClass> nRectTriangle = TriangleClass.removeDuplicates(appState.rectTriangle);
+
+    final List<RectangleClass> rectangles = RecursionClass.recursiveMergeSort(
+      nRectangles,
+      (a, b) => a.area.compareTo(b.area),
+    );
+
+    final List<SquareClass> squares = RecursionClass.recursiveMergeSort(
+      nSquares,
+      (a, b) => a.area.compareTo(b.area),
+    );
+
+    final List<TriangleClass> acute = RecursionClass.recursiveMergeSort(
+      nAcute,
+      (a, b) => a.area.compareTo(b.area),
+    );
+
+    final List<TriangleClass> rectTriangle = RecursionClass.recursiveMergeSort(
+      nRectTriangle,
+      (a, b) => a.area.compareTo(b.area),
+    );
 
     List<LineSeries<PointClass, double>> figures = [];
 
     switch (indexFigures) {
       case 1:
-        figures = [RectangleClass.toLineSeries(rectangles)];
+        figures = RectangleClass.toLineSeries(rectangles);
         break;
       case 2:
-        figures = [SquareClass.toLineSeries(squares)];
+        figures = SquareClass.toLineSeries(squares);
         break;
       case 3:
-        figures = [TriangleClass.toLineSeries(rectTriangle)];
+        figures = TriangleClass.toLineSeries(rectTriangle);
         break;
       case 4:
-        figures = [TriangleClass.toLineSeries(acute)];
+        figures = TriangleClass.toLineSeries(acute);
         break;
       default:
         figures = [
-          RectangleClass.toLineSeries(rectangles),
-          SquareClass.toLineSeries(squares),
-          TriangleClass.toLineSeries(rectTriangle),
-          TriangleClass.toLineSeries(acute),
+          ...RectangleClass.toLineSeries(rectangles),
+          ...SquareClass.toLineSeries(squares),
+          ...TriangleClass.toLineSeries(rectTriangle),
+          ...TriangleClass.toLineSeries(acute),
         ];
     }
 
@@ -55,6 +75,7 @@ class _CartesianChartState extends State<CartesianChart> {
                 child: SfCartesianChart(
                   primaryXAxis: NumericAxis(rangePadding: ChartRangePadding.additional,),
                   primaryYAxis: NumericAxis(rangePadding: ChartRangePadding.additional,),
+                  legend: Legend(isVisible: true),
                   series: <CartesianSeries>[
                     ScatterSeries<PointClass, double>(
                       dataSource: appState.data[appState.currentLabel] ?? [],
