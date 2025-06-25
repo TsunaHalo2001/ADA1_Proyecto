@@ -19,6 +19,10 @@ class TriangleClass {
     final a = _distance(p2, p3);
     final b = _distance(p1, p3);
     final c = _distance(p1, p2);
+    if ((a * a + b * b - c * c) / (2 * a * b) > 1 ||
+        (a * a + b * b - c * c) / (2 * a * b) < -1) {
+      return 0; // Invalid triangle, return 0 degrees
+    }
     return ((180 / pi) * acos((a * a + b * b - c * c) / (2 * a * b))).round();
   }
 
